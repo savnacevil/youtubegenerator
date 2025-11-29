@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Shorts Generator</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- FFmpeg WASM -->
+    <script src="ffmpeg/ffmpeg.min.js"></script>
+
+</head>
+<body>
+
+    <header>
+        <h1>YouTube Shorts Generator</h1>
+        <p>Create brainrot-style Shorts with captions, AI voices, and satisfying clips.</p>
+    </header>
+
+    <section id="controls">
+
+        <!-- Genre Selector -->
+        <div class="control-block">
+            <label>Genre</label>
+            <select id="genreSelect">
+                <option value="brainrot">Brainrot (default)</option>
+                <!-- Add more genres later -->
+            </select>
+        </div>
+
+        <!-- Voice Selector -->
+        <div class="control-block">
+            <label>Voice</label>
+            <select id="voiceSelect">
+                <option value="random">Random Voice</option>
+                <option value="tiktokFemale">TikTok Female</option>
+                <option value="deepMale">Deep Male</option>
+                <option value="kid">Kid Voice</option>
+                <option value="asmr">ASMR Whisper</option>
+                <option value="britishFemale">British Female</option>
+                <option value="britishMale">British Male</option>
+                <option value="sigma">Sigma Voice</option>
+            </select>
+        </div>
+
+        <!-- Caption Style Selector -->
+        <div class="control-block">
+            <label>Caption Style</label>
+            <select id="captionStyleSelect">
+                <option value="tiktok">TikTok Bold</option>
+                <option value="yellow">Yellow Subtitles</option>
+                <option value="anime">Anime Glow</option>
+                <option value="karaoke">Karaoke Highlight</option>
+                <option value="bounce">Bounce Animation</option>
+                <option value="slide">Slide Up</option>
+                <option value="random">Random Style</option>
+            </select>
+        </div>
+
+        <!-- Video Import -->
+        <div class="control-block">
+            <label>Satisfying Clip</label>
+            <input type="file" id="uploadVideo" accept="video/*">
+            <input type="text" id="ytURL" placeholder="Paste YouTube URL (optional)">
+            <button id="useLibraryBtn">Use Built-in Library</button>
+        </div>
+
+        <!-- Story Description Box -->
+        <div class="control-block">
+            <label>Custom Story (optional)</label>
+            <textarea id="storyBox" placeholder="Leave empty to auto-generate a story..."></textarea>
+        </div>
+
+        <!-- Generate Story Button -->
+        <button id="generateStoryBtn">Generate Story</button>
+
+    </section>
+
+    <!-- Preview Canvas -->
+    <section id="preview">
+        <h2>Video Preview</h2>
+
+        <div id="canvasWrapper">
+            <div id="topBox">
+                <video id="previewVideo" autoplay muted loop></video>
+            </div>
+
+            <div id="resizeBar"></div>
+
+            <div id="bottomBox">
+                <p id="previewCaptions">Your subtitles will appear here...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Render & Download Buttons -->
+    <section id="renderControls">
+        <button id="renderVideoBtn">Render Video</button>
+        <button id="downloadVideoBtn" disabled>Download MP4</button>
+        <button id="thumbnailBtn">Generate Thumbnail</button>
+        <button id="downloadThumbnailBtn" disabled>Download Thumbnail</button>
+    </section>
+
+    <!-- JS -->
+    <script src="app.js"></script>
+
+</body>
+</html>
