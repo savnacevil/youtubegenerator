@@ -1,38 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YouTube Short Generator</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BrainRotter — Shorts Generator (All-in-One)</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
   <div class="app">
-
-    <header>
-      <h1>YouTube Short Generator</h1>
+    <header class="topbar">
+      <div class="brand">BrainRotter</div>
+      <div class="subtitle">Instant viral short generator — Brainrot reveal included</div>
     </header>
 
-    <div class="video-area">
-      <div id="captionBox">
-        <p id="storyText">Click Generate 👇</p>
-      </div>
+    <main class="main">
+      <section class="left">
+        <div class="phone" id="phonePreview">
+          <canvas id="canvas" width="1080" height="1920"></canvas>
 
-      <img id="brainrotImage"
-        src="https://cdna.artstation.com/p/assets/images/images/050/089/394/large/steven-lo-ji-1.jpg?1654031250"
-        alt="Brainrot Meme" />
-    </div>
+          <!-- overlay UI inside phone preview (controls/inputs) -->
+          <div class="overlay">
+            <div class="top-controls">
+              <label class="filebtn">Upload Top Clip
+                <input id="fileInput" type="file" accept="video/*,image/*" />
+              </label>
+              <select id="demoSelect" title="Demo loops">
+                <option value="">Demo: animated loop</option>
+                <option value="slime">Satisfying Slime</option>
+                <option value="cut">AI Cut Loop</option>
+              </select>
+            </div>
 
-    <div class="controls">
-      <select id="categorySelect"></select>
-      <button id="generateBtn">Generate Story</button>
-    </div>
+            <div class="divider" id="divider" title="Drag to resize"></div>
 
-    <audio id="brainrotSound" src="sounds/brainrot-ambience.mp3"></audio>
+            <div class="caption-panel">
+              <textarea id="captionBox" placeholder="Captions appear here..." rows="3"></textarea>
+              <div class="caption-row">
+                <select id="fontSelect"><option>Inter</option><option>Impact</option><option>Arial</option></select>
+                <select id="animSelect"><option value="static">Static</option><option value="bounce">Bounce</option><option value="zoom">Zoom</option><option value="shake">Shake</option></select>
+                <label>Size <input id="textSize" type="range" min="28" max="120" value="56" /></label>
+              </div>
+            </div>
 
+            <img id="revealImage" class="reveal" alt="reveal" />
+
+          </div>
+        </div>
+
+        <div class="actions">
+          <select id="categorySelect"></select>
+          <button id="newStoryBtn" class="btn">New Story</button>
+          <button id="playRevealBtn" class="btn">Reveal Now</button>
+          <button id="exportBtn" class="btn primary">Export .webm</button>
+        </div>
+      </section>
+
+      <aside class="right">
+        <h3>Controls & Tips</h3>
+        <label>Playback rate <input id="playbackRate" type="range" min="0.6" max="1.6" step="0.1" value="1" /></label>
+        <label><input id="watermarkToggle" type="checkbox" checked/> Add watermark</label>
+        <hr/>
+        <h4>Audio / Reveal</h4>
+        <label><input id="embedAudio" type="checkbox" checked/> Embed reveal audio in export</label>
+        <p class="muted">Reveal audio is synthesized in-browser (weird ambience). No external files needed.</p>
+        <hr/>
+        <h4>Notes</h4>
+        <p class="muted">Export creates a `.webm` file (video + audio). If you need MP4 conversion, I can add ffmpeg-wasm on demand (bigger, slower).</p>
+        <p class="muted">This project is client-side and free to host on GitHub Pages.</p>
+      </aside>
+    </main>
+
+    <footer class="footer">© BrainRotter 2025 — Use responsibly</footer>
   </div>
 
-  <script type="module" src="script.js"></script>
+  <!-- data + app -->
+  <script src="stories.js"></script>
+  <script src="memes.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
