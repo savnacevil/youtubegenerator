@@ -1,110 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Shorts Generator</title>
-
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- FFmpeg WASM -->
-    <script src="ffmpeg/ffmpeg.min.js"></script>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BrainRotter — Shorts Generator</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <header class="topbar">
+    <div class="branding">
+      <div class="logo">BrainRotter</div>
+      <div class="tag">Create viral brainrot Shorts — instant</div>
+    </div>
+    <div class="top-actions">
+      <button id="newStoryBtn" class="btn">New Story</button>
+      <select id="voiceSelect" class="select" title="Preview voice"></select>
+      <label class="small inline"><input type="checkbox" id="riskMode" /> Risk Mode</label>
+      <label class="small inline"><input type="checkbox" id="embedVoiceToggle" checked /> Embed audio</label>
+      <label class="small inline"><input type="checkbox" id="useMp4Toggle" /> Convert MP4</label>
+      <button id="exportBtn" class="btn primary">Export</button>
+    </div>
+  </header>
 
-    <header>
-        <h1>YouTube Shorts Generator</h1>
-        <p>Create brainrot-style Shorts with captions, AI voices, and satisfying clips.</p>
-    </header>
-
-    <section id="controls">
-
-        <!-- Genre Selector -->
-        <div class="control-block">
-            <label>Genre</label>
-            <select id="genreSelect">
-                <option value="brainrot">Brainrot (default)</option>
-                <!-- Add more genres later -->
+  <main class="main">
+    <section class="canvas-area">
+      <div class="phone-preview" id="phonePreview">
+        <canvas id="renderCanvas" width="1080" height="1920"></canvas>
+        <div class="overlay ui">
+          <div class="uploader left">
+            <label class="file-btn">Upload Top Clip<input id="fileInput" type="file" accept="video/*,image/*" /></label>
+            <select id="topClipFallback" title="Use demo">
+              <option value="">Demo: Satisfying loops</option>
+              <option value="demo:slime">Satisfying Slime</option>
+              <option value="demo:cut">AI-Cut Loops</option>
             </select>
-        </div>
+            <label class="small">Watermark <input id="watermarkToggle" type="checkbox" checked /></label>
+          </div>
 
-        <!-- Voice Selector -->
-        <div class="control-block">
-            <label>Voice</label>
-            <select id="voiceSelect">
-                <option value="random">Random Voice</option>
-                <option value="tiktokFemale">TikTok Female</option>
-                <option value="deepMale">Deep Male</option>
-                <option value="kid">Kid Voice</option>
-                <option value="asmr">ASMR Whisper</option>
-                <option value="britishFemale">British Female</option>
-                <option value="britishMale">British Male</option>
-                <option value="sigma">Sigma Voice</option>
-            </select>
-        </div>
+          <div class="divider-wrapper"><div id="divider" class="divider" title="Drag"></div></div>
 
-        <!-- Caption Style Selector -->
-        <div class="control-block">
-            <label>Caption Style</label>
-            <select id="captionStyleSelect">
-                <option value="tiktok">TikTok Bold</option>
-                <option value="yellow">Yellow Subtitles</option>
-                <option value="anime">Anime Glow</option>
-                <option value="karaoke">Karaoke Highlight</option>
-                <option value="bounce">Bounce Animation</option>
-                <option value="slide">Slide Up</option>
-                <option value="random">Random Style</option>
-            </select>
-        </div>
-
-        <!-- Video Import -->
-        <div class="control-block">
-            <label>Satisfying Clip</label>
-            <input type="file" id="uploadVideo" accept="video/*">
-            <input type="text" id="ytURL" placeholder="Paste YouTube URL (optional)">
-            <button id="useLibraryBtn">Use Built-in Library</button>
-        </div>
-
-        <!-- Story Description Box -->
-        <div class="control-block">
-            <label>Custom Story (optional)</label>
-            <textarea id="storyBox" placeholder="Leave empty to auto-generate a story..."></textarea>
-        </div>
-
-        <!-- Generate Story Button -->
-        <button id="generateStoryBtn">Generate Story</button>
-
-    </section>
-
-    <!-- Preview Canvas -->
-    <section id="preview">
-        <h2>Video Preview</h2>
-
-        <div id="canvasWrapper">
-            <div id="topBox">
-                <video id="previewVideo" autoplay muted loop></video>
+          <div class="caption-controls">
+            <textarea id="captionBox" placeholder="Captions appear here..." rows="3"></textarea>
+            <div class="caption-row">
+              <select id="fontSelect" class="select">
+                <option>Inter</option><option>Impact</option><option>Arial</option><option>Georgia</option>
+              </select>
+              <select id="animSelect" class="select">
+                <option value="static">Static</option><option value="bounce">Bounce</option>
+                <option value="zoom">Zoom</option><option value="shake">Shake</option>
+              </select>
+              <label class="small">Size <input id="textSize" type="range" min="28" max="120" value="56" /></label>
             </div>
+          </div>
 
-            <div id="resizeBar"></div>
+          <div class="audio-controls right">
+            <label class="file-btn">Upload Audio<input id="audioUpload" type="file" accept="audio/*" /></label>
+            <button id="recordAudioBtn" class="btn">Record Mic</button>
+            <button id="stopRecordAudioBtn" class="btn" disabled>Stop</button>
+            <div id="audioStatus" class="small muted">No audio loaded</div>
+            <div class="small muted">Tip: For embedded TTS, upload WAV/MP3 of the voice you want.</div>
+          </div>
 
-            <div id="bottomBox">
-                <p id="previewCaptions">Your subtitles will appear here...</p>
-            </div>
         </div>
+      </div>
     </section>
 
-    <!-- Render & Download Buttons -->
-    <section id="renderControls">
-        <button id="renderVideoBtn">Render Video</button>
-        <button id="downloadVideoBtn" disabled>Download MP4</button>
-        <button id="thumbnailBtn">Generate Thumbnail</button>
-        <button id="downloadThumbnailBtn" disabled>Download Thumbnail</button>
-    </section>
+    <aside class="side-panel">
+      <h3>Controls</h3>
+      <label>Playback rate: <input id="playbackRate" type="range" min="0.6" max="1.6" step="0.1" value="1" /></label>
+      <label>Language:
+        <select id="langSelect"><option value="en">English</option><option value="es">Spanish</option></select>
+      </label>
 
-    <!-- JS -->
-    <script src="app.js"></script>
+      <h4>Templates</h4>
+      <div class="templates">
+        <button data-template="school" class="btn">School Drama</button>
+        <button data-template="exposed" class="btn">Exposed</button>
+        <button data-template="twist" class="btn">Twist</button>
+        <button data-template="crush" class="btn">Crush Chaos</button>
+      </div>
 
+      <hr />
+      <div class="notes">
+        <strong>Export:</strong> webm by default. MP4 conversion loads ffmpeg in-browser (device-heavy).
+        <div class="muted">SpeechSynthesis preview is playable but cannot be reliably embedded — upload audio or record mic to embed voice in the export.</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="footer">© 2025 BrainRotter — Use Risk Mode responsibly</footer>
+
+  <!-- Data -->
+  <script src="stories.js"></script>
+  <script src="voices.js"></script>
+
+  <!-- App -->
+  <script src="script.js"></script>
 </body>
 </html>
