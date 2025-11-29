@@ -1,100 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BrainRotter — Shorts Generator</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Short Generator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="branding">
-      <div class="logo">BrainRotter</div>
-      <div class="tag">Create viral brainrot Shorts — instant</div>
+
+  <div class="app">
+
+    <header>
+      <h1>YouTube Short Generator</h1>
+    </header>
+
+    <div class="video-area">
+      <div id="captionBox">
+        <p id="storyText">Click Generate 👇</p>
+      </div>
+
+      <img id="brainrotImage"
+        src="https://cdna.artstation.com/p/assets/images/images/050/089/394/large/steven-lo-ji-1.jpg?1654031250"
+        alt="Brainrot Meme" />
     </div>
-    <div class="top-actions">
-      <button id="newStoryBtn" class="btn">New Story</button>
-      <select id="voiceSelect" class="select" title="Preview voice"></select>
-      <label class="small inline"><input type="checkbox" id="riskMode" /> Risk Mode</label>
-      <label class="small inline"><input type="checkbox" id="embedVoiceToggle" checked /> Embed audio</label>
-      <label class="small inline"><input type="checkbox" id="useMp4Toggle" /> Convert MP4</label>
-      <button id="exportBtn" class="btn primary">Export</button>
+
+    <div class="controls">
+      <select id="categorySelect"></select>
+      <button id="generateBtn">Generate Story</button>
     </div>
-  </header>
 
-  <main class="main">
-    <section class="canvas-area">
-      <div class="phone-preview" id="phonePreview">
-        <canvas id="renderCanvas" width="1080" height="1920"></canvas>
-        <div class="overlay ui">
-          <div class="uploader left">
-            <label class="file-btn">Upload Top Clip<input id="fileInput" type="file" accept="video/*,image/*" /></label>
-            <select id="topClipFallback" title="Use demo">
-              <option value="">Demo: Satisfying loops</option>
-              <option value="demo:slime">Satisfying Slime</option>
-              <option value="demo:cut">AI-Cut Loops</option>
-            </select>
-            <label class="small">Watermark <input id="watermarkToggle" type="checkbox" checked /></label>
-          </div>
+    <audio id="brainrotSound" src="sounds/brainrot-ambience.mp3"></audio>
 
-          <div class="divider-wrapper"><div id="divider" class="divider" title="Drag"></div></div>
+  </div>
 
-          <div class="caption-controls">
-            <textarea id="captionBox" placeholder="Captions appear here..." rows="3"></textarea>
-            <div class="caption-row">
-              <select id="fontSelect" class="select">
-                <option>Inter</option><option>Impact</option><option>Arial</option><option>Georgia</option>
-              </select>
-              <select id="animSelect" class="select">
-                <option value="static">Static</option><option value="bounce">Bounce</option>
-                <option value="zoom">Zoom</option><option value="shake">Shake</option>
-              </select>
-              <label class="small">Size <input id="textSize" type="range" min="28" max="120" value="56" /></label>
-            </div>
-          </div>
-
-          <div class="audio-controls right">
-            <label class="file-btn">Upload Audio<input id="audioUpload" type="file" accept="audio/*" /></label>
-            <button id="recordAudioBtn" class="btn">Record Mic</button>
-            <button id="stopRecordAudioBtn" class="btn" disabled>Stop</button>
-            <div id="audioStatus" class="small muted">No audio loaded</div>
-            <div class="small muted">Tip: For embedded TTS, upload WAV/MP3 of the voice you want.</div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <aside class="side-panel">
-      <h3>Controls</h3>
-      <label>Playback rate: <input id="playbackRate" type="range" min="0.6" max="1.6" step="0.1" value="1" /></label>
-      <label>Language:
-        <select id="langSelect"><option value="en">English</option><option value="es">Spanish</option></select>
-      </label>
-
-      <h4>Templates</h4>
-      <div class="templates">
-        <button data-template="school" class="btn">School Drama</button>
-        <button data-template="exposed" class="btn">Exposed</button>
-        <button data-template="twist" class="btn">Twist</button>
-        <button data-template="crush" class="btn">Crush Chaos</button>
-      </div>
-
-      <hr />
-      <div class="notes">
-        <strong>Export:</strong> webm by default. MP4 conversion loads ffmpeg in-browser (device-heavy).
-        <div class="muted">SpeechSynthesis preview is playable but cannot be reliably embedded — upload audio or record mic to embed voice in the export.</div>
-      </div>
-    </aside>
-  </main>
-
-  <footer class="footer">© 2025 BrainRotter — Use Risk Mode responsibly</footer>
-
-  <!-- Data -->
-  <script src="stories.js"></script>
-  <script src="voices.js"></script>
-
-  <!-- App -->
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
